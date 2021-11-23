@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,7 +35,13 @@ func main(){
 	})
 
 	users.GET("/:id", func(c *gin.Context) {
-		var id  int = c.Param("id")
+		id, err := strconv.ParseInt(c.Param("id"), 0, 64)
+		if err != nil {
+			c.JSON(500, gin.H{
+				"message": err,
+			})
+			return
+		}
 		user := db.get(id)
 		c.JSON(200, gin.H{
 			"message": "User",
@@ -50,7 +58,7 @@ func main(){
 		})
 	})
 
-	users.PUT("/update", func(c *gin.Context){
+	users.POST("/update", func(c *gin.Context){
 		username := c.PostForm("username")
 		new_username := c.PostForm("new_username")
 		c.JSON(200, gin.H{

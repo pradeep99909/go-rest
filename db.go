@@ -1,7 +1,7 @@
 package main
 
 type User struct {
-	Id   int
+	Id   int64
 	Name string
 }
 
@@ -10,7 +10,7 @@ type DB struct {
 }
 
 func (db *DB) create(username string) User {
-	var user User = User{Id: len(db.users), Name: username}
+	var user User = User{Id: int64(len(db.users)), Name: username}
 	db.users = append(db.users, user)
 	return user
 }
@@ -34,7 +34,7 @@ func (db *DB) delete(username string) {
 	}
 }
 
-func (db *DB) get(id int) User {
+func (db *DB) get(id int64) User {
 	for _, user := range db.users {
 		if user.Id == id {
 			return user
