@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -61,9 +62,11 @@ func main(){
 	users.POST("/update", func(c *gin.Context){
 		username := c.PostForm("username")
 		new_username := c.PostForm("new_username")
+		log.Println("/update :: username, new_username", username, new_username)
+		db.update(username, new_username)
 		c.JSON(200, gin.H{
 			"message":"return created User",
-			"username": db.update(username, new_username).Name,
+			"username": new_username,
 		})
 	})
 

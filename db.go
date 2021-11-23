@@ -16,10 +16,9 @@ func (db *DB) create(username string) User {
 }
 
 func (db *DB) update(username string, new_username string) User {
-	for _, user := range db.users {
+	for i, user := range db.users {
 		if user.Name == username {
-			user.Name = new_username
-			return user
+			db.users[i].Name = new_username
 		}
 	}
 	return User{}
